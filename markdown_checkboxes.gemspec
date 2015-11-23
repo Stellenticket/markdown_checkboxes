@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.date        = '2013-11-20'
   s.summary     = 'Markdown with checkbox support'
   s.description = 'Adding checkbox rendering functionality on top of the redcarpet markdown parser'
-  s.authors     = ['Brightbit Apps']
-  s.email       = 'hello@brightbit.com'
+  s.authors     = ['Brightbit Apps', 'Markus Doits (Stellenticket GmbH)']
+  s.email       = 'info@stellenticket.de'
   s.files       = ['lib/markdown_checkboxes.rb', 'lib/markdown_checkboxes/data_struct.rb']
   s.homepage    = 'http://rubygems.org/gems/markdown_checkboxes'
   s.license     = 'MIT'
