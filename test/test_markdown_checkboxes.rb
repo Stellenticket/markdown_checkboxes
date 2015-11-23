@@ -6,9 +6,9 @@ class MarkdownCheckboxesTest < Test::Unit::TestCase
     @m ||= Redcarpet::Markdown.new(CheckboxMarkdown.new)
   end
 
-  def test_proper_markdown_inheritance
-    #assert @m.is_a? CheckboxMarkdown
-    #assert @m.is_a? Redcarpet::Markdown # Superclass
+  def test_html_not_escaped
+    m_escape_html = Redcarpet::Markdown.new(CheckboxMarkdown.new(escape_html: true))
+    assert_match %r{<input.* />}, m_escape_html.render("<script>alert('bad!')</script>\n\n- [ ]")
   end
 
   def test_standard_markdown
@@ -24,6 +24,10 @@ class MarkdownCheckboxesTest < Test::Unit::TestCase
   def test_checkbox_check_attribute
     assert_match /checked="checked"/,     @m.render("- [x]")
     assert_no_match /checked="checked"/,  @m.render("- [ ]")
+  end
+
+  def test_checkbox_list_item_class
+    assert_match(/class="task-list-item"/, @m.render('- [x]'))
   end
 
   def test_checkbox_data_setting
