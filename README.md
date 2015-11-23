@@ -8,7 +8,7 @@ and adds checkbox rendering functionality simply by adding `- [ ]` or `- [x]` to
 ```ruby
 require 'markdown_checkboxes'
 
-parser = CheckboxMarkdown.new(Redcarpet::Render::HTML.new())
+parser = Redcarpet::Markdown.new(CheckboxMarkdown.new(options = {}), extensions = {})
 
 markdown = <<-MARKDOWN
 # Test h1
@@ -29,14 +29,12 @@ Here's the basic setup for defining your parser object:
 
 ```ruby
 # Initializes a Checkbox Markdown parser
-CheckboxMarkdown.new(renderer, extensions = {})
+Redcarpet::Markdown.new(CheckboxMarkdown.new, extensions = {})
 ```
 
-You have many customizable options that you can pass in to your renderer and extensions.
-To see these options when declaring your parser, please view [Redcarpet's](https://github.com/vmg/redcarpet)
-main GitHub page. CheckboxMarkdown inherits from Redcarpet::Markdown, so the same constructor args will work.
-
 ### Adding some serious checkbox action
+
+**Does not work atm in this branch, being worked on, checkboxes always disabled because of this for now**
 
 Now, those checkboxes above will be visually built and clickable, but they won't actively send a request to the server to modify any data fields.
 To add some update action, throw in a block with some options like:

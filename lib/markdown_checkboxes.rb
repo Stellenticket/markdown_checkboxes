@@ -1,46 +1,20 @@
 require 'redcarpet'
 require 'action_view'
-require File.dirname(__FILE__) + '/markdown_checkboxes/data_struct'
+# require File.dirname(__FILE__) + '/markdown_checkboxes/data_struct'
 
-class CheckboxMarkdown < Redcarpet::Markdown
+class CheckboxMarkdown < Redcarpet::Render::HTML
   include ActionView::Helpers::FormTagHelper
+  CHECKBOX_REGEX = /<li>\s*\[(x|X|\s)?\]/
 
-  VERSION = '1.0.0'
+  VERSION = '2.0.0'
 
-  def render(text, &block)
-    text = parse_with_checkboxes(text, &block)
-    super(text)
-  end
+  def postprocess(text)
+    text.gsub(CHECKBOX_REGEX).with_index do |_, current_index|
+      checkbox_content = Regexp.last_match[1]
+      checked = checkbox_content =~ /x|X/ ? true : false
 
-  private
-
-  def parse_with_checkboxes(text, &block)
-    checkbox_regex  = /-\s?\[(x|\s)\]/
-
-    text.gsub(checkbox_regex).with_index do |current_match, current_index|
-      checked = current_match =~ /x/ ? true : false
-
-      body =
-        text.gsub(checkbox_regex).with_index do |match, index|
-          if index == current_index
-            checked ? "- [ ]" : "- [x]"
-          else
-            match
-          end
-        end
-
-      check_box_tag "check_#{current_index}", "", checked, data: data_options(body, &block)
+      '<li class="task-list-item">' +
+        check_box_tag("check_#{current_index}", '', checked, disabled: true)
     end
   end
-
-  def data_options(body)
-    if block_given?
-      data_struct = DataStruct.new
-      yield(data_struct, body)
-      data_struct.serializable_hash
-    else
-      {}
-    end
-  end
-
 end
