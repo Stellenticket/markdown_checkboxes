@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/lib/markdown_checkboxes'
+$LOAD_PATH.push File.expand_path('../lib', __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = 'markdown_checkboxes'
